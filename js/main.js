@@ -6,6 +6,13 @@ const weithRange = document.querySelector('#weith-range');
 const peepleInput = document.querySelector('#peeple-input');
 const peepleRange = document.querySelector('#peeple-range');
 const inputs = document.querySelectorAll('input');
+// Радио кнопки
+const radioType = document.querySelectorAll('input[name="type"]');
+let radioText = document.querySelector('#raio-text');
+// Чек боксы
+const ceilings = document.querySelector('input[name="ceiling"]');
+const walls = document.querySelector('input[name="walls"]');
+const floors = document.querySelector('input[name="floor"]');
 
 const basePriceHour = 47.61;
 const basePriceWeith = 120;
@@ -36,8 +43,28 @@ peepleInput.addEventListener('input', function () {
 function calculate() {
   let priceWeith = (parseInt(weithRange.value) * 120) / peepleRange.value;
   let totalPrice = basePriceHour * parseInt(squareRange.value) + priceWeith;
+
+  for (const radio of radioType) {   
+    if (radio.checked) {
+      radioText.innerText = radio.value;
+    }
+  }
+
+  if (ceilings.checked) {
+    totalPrice += parseInt(ceilings.value);
+  }
+
+  if (walls.checked) {
+    totalPrice += parseInt(walls.value);
+  }
+
+  if (floors.checked) {
+    totalPrice += parseInt(floors.value);
+  }
+
   let finalPrice = document.querySelector('#total-price');
-  finalPrice.innerText = totalPrice;
+  const formatter = new Intl.NumberFormat('ru');
+  finalPrice.innerText = formatter.format(totalPrice);
 }
 calculate();
 
